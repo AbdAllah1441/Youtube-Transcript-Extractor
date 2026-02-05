@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { Navigation } from "@/components/Navigation";
 
 interface TranscriptSegment {
   text: string;
@@ -31,6 +32,8 @@ const translations = {
     copy: "Copy",
     copied: "Copied!",
     footer: "Works with videos that have captions enabled",
+    navTranscript: "Transcript",
+    navMp3: "MP3 Downloader",
   },
   ar: {
     title: "مستخرج نصوص يوتيوب",
@@ -43,6 +46,8 @@ const translations = {
     copy: "نسخ",
     copied: "نُسخ",
     footer: "يعمل مع الفيديوهات التي تحتوي على نسخة مكتوبة فقط",
+    navTranscript: "النص",
+    navMp3: "تحميل MP3",
   },
 };
 
@@ -63,7 +68,12 @@ function isRTL(language?: string): boolean {
 // Sun icon for light mode
 function SunIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -77,7 +87,12 @@ function SunIcon({ className }: { className?: string }) {
 // Moon icon for dark mode
 function MoonIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -91,18 +106,28 @@ function MoonIcon({ className }: { className?: string }) {
 // Languages icon
 function LanguagesIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+      />
     </svg>
   );
 }
 
 // Language Switcher Dropdown Component
-function LanguageSwitcher({ 
-  locale, 
-  setLocale 
-}: { 
-  locale: UILanguage; 
+function LanguageSwitcher({
+  locale,
+  setLocale,
+}: {
+  locale: UILanguage;
   setLocale: (locale: UILanguage) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +136,10 @@ function LanguageSwitcher({
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -128,7 +156,7 @@ function LanguageSwitcher({
       >
         <LanguagesIcon className="w-5 h-5" />
       </button>
-      
+
       {isOpen && (
         <div className="absolute right-0 mt-2 w-36 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-lg overflow-hidden z-50">
           <button
@@ -178,22 +206,25 @@ export default function Home() {
   useEffect(() => {
     const savedLang = localStorage.getItem("uiLang") as UILanguage | null;
     const savedTheme = localStorage.getItem("theme") as Theme | null;
-    
+
     if (savedLang) setUiLang(savedLang);
-    
+
     // Determine initial theme
-    const initialTheme: Theme = savedTheme || 
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    
+    const initialTheme: Theme =
+      savedTheme ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+
     setTheme(initialTheme);
-    
+
     // Apply theme immediately
     if (initialTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-    
+
     setMounted(true);
   }, []);
 
@@ -287,8 +318,12 @@ export default function Home() {
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors shadow-sm"
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            title={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
           >
             {theme === "dark" ? (
               <SunIcon className="w-5 h-5" />
@@ -319,9 +354,16 @@ export default function Home() {
           </p>
         </div>
 
+        <Navigation
+          isRTL={isUIRTL}
+          translations={{ transcript: t.navTranscript, mp3: t.navMp3 }}
+        />
+
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="mb-8">
-          <div className={`flex flex-col sm:flex-row gap-3 ${isUIRTL ? "sm:flex-row-reverse" : ""}`}>
+          <div
+            className={`flex flex-col sm:flex-row gap-3 ${isUIRTL ? "sm:flex-row-reverse" : ""}`}
+          >
             <input
               type="text"
               value={url}
@@ -376,20 +418,28 @@ export default function Home() {
         {transcript && (
           <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
             {/* Toolbar */}
-            <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 ${isUIRTL ? "sm:flex-row-reverse" : ""}`}>
+            <div
+              className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 ${isUIRTL ? "sm:flex-row-reverse" : ""}`}
+            >
               <div className="text-sm text-zinc-600 dark:text-zinc-400">
                 <span className="font-medium text-zinc-900 dark:text-white">
                   {transcript.totalSegments}
                 </span>{" "}
                 {t.segments}
                 {transcript.language && (
-                  <span className={`${isUIRTL ? "mr-2" : "ml-2"} px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-xs`}>
+                  <span
+                    className={`${isUIRTL ? "mr-2" : "ml-2"} px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-xs`}
+                  >
                     {transcript.language}
                   </span>
                 )}
               </div>
-              <div className={`flex items-center gap-4 ${isUIRTL ? "flex-row-reverse" : ""}`}>
-                <label className={`flex items-center gap-2 cursor-pointer ${isUIRTL ? "flex-row-reverse" : ""}`}>
+              <div
+                className={`flex items-center gap-4 ${isUIRTL ? "flex-row-reverse" : ""}`}
+              >
+                <label
+                  className={`flex items-center gap-2 cursor-pointer ${isUIRTL ? "flex-row-reverse" : ""}`}
+                >
                   <input
                     type="checkbox"
                     checked={showTimestamps}

@@ -12,7 +12,9 @@
     "@egoist/youtube-transcript-plus": "^1.1.2",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "youtube-dl-exec": "^3.0.30",
+    "yt-dlp-wrap": "^2.3.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
